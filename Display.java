@@ -1,13 +1,22 @@
 package kochkurven;
 
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,15 +34,19 @@ public class Display {
 		
 		// Init
 		
-		this.stage.setTitle("Kochkurven - stetige, aber undifferenzierbare Funktionen!");
-		
+		stage.setTitle("Kochkurven - stetige, aber undifferenzierbare Funktionen!");
+	
 		
 		// Layouts einrichten, Freezen!
 		VBox layoutLeft = new VBox();
 		StackPane layoutRight = new StackPane();
 		
 		SplitPane layoutControl = new SplitPane(layoutLeft, layoutRight);
-
+		
+		//Scene Initialisieren
+		
+		Scene scene = new Scene(layoutControl, 900, 600);
+		
 		// Divider Setzen 
 		layoutControl.setDividerPosition(0, 0.24);
 		
@@ -68,6 +81,10 @@ public class Display {
 			Label placeHolder7 = new Label("");
 			Label placeHolder8 = new Label("");
 			Label placeHolder9 = new Label("");
+			Label placeHolder10 = new Label("");
+			Label placeHolder11 = new Label("");
+			Label placeHolder12 = new Label("");
+
 
 			// RadioButtons
 			
@@ -90,7 +107,8 @@ public class Display {
 			
 			Button calculateInitiator = new Button("Berechne Initiator");
 			Button calculateGenerator = new Button("Berechne Generator");
-			
+			Button exportScreenshot = new Button("Exportiere Screenshot");
+			Button quitProgramm = new Button("Beende das Programm");
 			// ToggleGroups -> Nur ein RadioButton darf aktiviert sein
 			
 			ToggleGroup toggleInitiators = new ToggleGroup();
@@ -150,6 +168,10 @@ public class Display {
 		layoutLeft.getChildren().add(placeHolder9);
 		layoutLeft.getChildren().add(successInitiators);
 		layoutLeft.getChildren().add(successGenerators);
+		layoutLeft.getChildren().add(placeHolder10);
+		layoutLeft.getChildren().add(exportScreenshot);
+		layoutLeft.getChildren().add(placeHolder11);
+		layoutLeft.getChildren().add(quitProgramm);
 		
 		// Ausrichtung der Elemente bearbeiten
 		
@@ -172,6 +194,9 @@ public class Display {
 		successInitiators.setTranslateX(6.0);
 		successGenerators.setTranslateX(6.0);
 		
+		exportScreenshot.setTranslateX(41.0);
+		quitProgramm.setTranslateX(39.0);
+		
 		// Sichtbarkeit
 		
 		successInitiators.setVisible(false);
@@ -190,6 +215,33 @@ public class Display {
 			String eingabeGenerator = generatorPoints.getText();
 			System.out.println(eingabeGenerator); // Ersichtlichkeit der Button-Funktionalitaet
 		});
+		
+		exportScreenshot.setOnAction(e -> {
+			WritableImage image = scene.snapshot(null);
+			Boolean worked = true;
+			String s = new String("Snapshot.png");
+			File outputfile = new File(s);
+			
+			try {
+				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputfile);
+			}
+			catch(IOException ioex) {
+				System.out.println("Fail");
+				worked = false;
+			}
+			if(worked) {
+				// Schreibe Erfolgsmeldung!
+				NoExitBox.display("Save-Info", "Datei " + s + " erfolgreich gespeichert!");
+			}
+		});
+		
+		quitProgramm.setOnAction(e -> {
+			boolean answer = NoExitBox.display("Tu das nicht....", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster");
+			if(!answer) {
+				Platform.exit();
+			}
+		});
+		
 		
 		// Radio-Button Funktionalitaet
 			// Fuer Initiatoren
@@ -240,12 +292,21 @@ public class Display {
 		//
 		//
 		
-		//Scene Initialisieren
+
+		// Stage bearbeiten
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.show();
 		
-		Scene scene = new Scene(layoutControl, 900, 600);
 		
-		this.stage.setScene(scene);
-		this.stage.show();
+		// Penetrantes Exit-Verhinderen 
+		stage.setOnCloseRequest(e -> {
+			boolean answer = NoExitBox.display("Tu das nicht....", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster");
+			if(answer) {
+				// Bleiben
+				e.consume();
+			}
+		});
 	}
 
 }
