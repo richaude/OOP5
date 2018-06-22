@@ -218,39 +218,45 @@ public class Display {
 		// Berechne Initiator
 		calculateInitiator.setOnAction(e -> {
 			String eingabeInitiator = new String("");
+			String eingabe;
 			boolean innen = false;
 			
 			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
 				// Gerade Linie
 				eingabeInitiator = "";
 				innen = false;
+				eingabe = "1" + eingabeInitiator;
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
 				// Quadrat, Kurven aussen
 				eingabeInitiator = "";
 				innen = false;
+				eingabe = "2" + eingabeInitiator;
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
 				// Quadrat, Kurven innen
 				eingabeInitiator = "";
 				innen = true;
+				eingabe = "3" + eingabeInitiator;
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
 				eingabeInitiator = "";
 				innen = false;
+				eingabe = "4" + eingabeInitiator;
 			}
 			else {
 				// Initiator Custom, unterscheide noch Kurvenrichtung
 				 eingabeInitiator = initiatorPoints.getText();
 				 // Ermittle Kurvenrichtung
+				 eingabe = "5" + eingabeInitiator;
 			}
 			
 		
-			System.out.println(eingabeInitiator); // Ersichtlichkeit der Button-Funktionalitaet
+			System.out.println(eingabe); // Ersichtlichkeit der Button-Funktionalitaet
 			// EIngabe, Innen
 			
-			verwaltung.initInitiator(eingabeInitiator, innen);
+			verwaltung.initInitiator(eingabe, innen);
 		});
 		
 		// Berechne Generator
@@ -332,8 +338,6 @@ public class Display {
 		});
 		
 		
-		
-	
 		//
 		//
 		// Jetzt die rechte Seite:
@@ -351,23 +355,19 @@ public class Display {
 			
 		//	layoutRight.getChildren().add(t1);
 		
-			
-			
-			
+				
 		//
 		//
 		// Abschluss
 		//
 		//
 		
-
 		// Stage bearbeiten
 		stage.setTitle("Kochkurven - stetige, aber undifferenzierbare Funktionen!");
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
-		
-		
+			
 		// Penetrantes Exit-Verhinderen 
 		stage.setOnCloseRequest(e -> {
 			boolean answer = NoExitBox.display("Tu das nicht....", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster");
