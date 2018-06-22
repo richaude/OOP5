@@ -3,13 +3,12 @@ package kochkurven;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -22,30 +21,32 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Display {
-	
+	// Positionen nochmal justieren, Kommunikation zu Verwaltung innnerhalb Verwaltung, ZeichneLinien-Button
+	private Verwaltung verwaltung;
 	private Stage stage;
+	private VBox layoutLeft;
+	private StackPane layoutRight;
+	private SplitPane layoutControl;
+	private Label successInitiator;
+	private Label successGenerator;
+	
 	
 	public Display(Stage stage) {
 		this.stage = stage;
+		this.verwaltung = new Verwaltung(this);
+		
+		// Layouts einrichten, Freezen!
+		layoutLeft = new VBox();
+		layoutRight = new StackPane();
+		layoutControl = new SplitPane(layoutLeft, layoutRight);
 	}
 	
 	
 	public void start() {
 		
-		// Init
-		
-		stage.setTitle("Kochkurven - stetige, aber undifferenzierbare Funktionen!");
-	
-		
-		// Layouts einrichten, Freezen!
-		VBox layoutLeft = new VBox();
-		StackPane layoutRight = new StackPane();
-		
-		SplitPane layoutControl = new SplitPane(layoutLeft, layoutRight);
-		
 		//Scene Initialisieren
 		
-		Scene scene = new Scene(layoutControl, 900, 600);
+		Scene scene = new Scene(layoutControl, 1000, 700);
 		
 		// Divider Setzen 
 		layoutControl.setDividerPosition(0, 0.24);
@@ -68,8 +69,8 @@ public class Display {
 			Label initiatorLabel2 = new Label("Zu verwendende Punkte (Custom):");
 			Label generatorLabel1 = new Label("Generators:");
 			Label generatorLabel2 = new Label("Zu verwendende Punkte (Custom):");
-			Label successInitiators = new Label("Initiator erfolgreich aufgenommen!");
-			Label successGenerators = new Label("Generator erfolgreich aufgenommen!");
+			successInitiator = new Label("Initiator erfolgreich aufgenommen!");
+			successGenerator = new Label("Generator erfolgreich aufgenommen!");
 			
 			// PlaceHolders
 			Label placeHolder1 = new Label("");
@@ -107,7 +108,8 @@ public class Display {
 			
 			Button calculateInitiator = new Button("Berechne Initiator");
 			Button calculateGenerator = new Button("Berechne Generator");
-			Button exportScreenshot = new Button("Exportiere Screenshot");
+			Button starteBerechnung = new Button("Kalkuliere Kurven");
+			Button exportScreenshot = new Button("Exportiere Bilddatei");
 			Button quitProgramm = new Button("Beende das Programm");
 			// ToggleGroups -> Nur ein RadioButton darf aktiviert sein
 			
@@ -164,10 +166,12 @@ public class Display {
 		layoutLeft.getChildren().add(generatorPoints);
 		layoutLeft.getChildren().add(placeHolder4);
 		layoutLeft.getChildren().add(calculateGenerator);
-		
 		layoutLeft.getChildren().add(placeHolder9);
-		layoutLeft.getChildren().add(successInitiators);
-		layoutLeft.getChildren().add(successGenerators);
+		layoutLeft.getChildren().add(starteBerechnung);
+		layoutLeft.getChildren().add(placeHolder12);
+		
+		layoutLeft.getChildren().add(successInitiator);
+		layoutLeft.getChildren().add(successGenerator);
 		layoutLeft.getChildren().add(placeHolder10);
 		layoutLeft.getChildren().add(exportScreenshot);
 		layoutLeft.getChildren().add(placeHolder11);
@@ -191,32 +195,96 @@ public class Display {
 		generatorCustom.setTranslateX(3.0);
 		generatorLabel2.setTranslateX(4.0);
 		calculateGenerator.setTranslateX(42.0);
-		successInitiators.setTranslateX(6.0);
-		successGenerators.setTranslateX(6.0);
-		
+		successInitiator.setTranslateX(23.0);
+		successGenerator.setTranslateX(19.0);
+		starteBerechnung.setMinSize(180.0, 45.0);
+		starteBerechnung.setTranslateX(30.0);
 		exportScreenshot.setTranslateX(41.0);
 		quitProgramm.setTranslateX(39.0);
 		
 		// Sichtbarkeit
 		
-		successInitiators.setVisible(false);
-		successGenerators.setVisible(false);
+		successInitiator.setVisible(false);
+		successGenerator.setVisible(false);
 		initiatorPoints.setDisable(true);
 		generatorPoints.setDisable(true);
 		
 		// Button - Funktionalitaet
 		
+		starteBerechnung.setOnAction(e -> {
+			this.verwaltung.verwalten();
+		});
+		
+		// Berechne Initiator
 		calculateInitiator.setOnAction(e -> {
-			String eingabeInitiator = initiatorPoints.getText();
+			String eingabeInitiator = new String("");
+			boolean innen = false;
+			
+			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
+				// Gerade Linie
+				eingabeInitiator = "";
+				innen = false;
+			}
+			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
+				// Quadrat, Kurven aussen
+				eingabeInitiator = "";
+				innen = false;
+			}
+			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
+				// Quadrat, Kurven innen
+				eingabeInitiator = "";
+				innen = true;
+			}
+			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
+				//	Gleichseitiges Dreieck
+				eingabeInitiator = "";
+				innen = false;
+			}
+			else {
+				// Initiator Custom, unterscheide noch Kurvenrichtung
+				 eingabeInitiator = initiatorPoints.getText();
+				 // Ermittle Kurvenrichtung
+			}
+			
+		
 			System.out.println(eingabeInitiator); // Ersichtlichkeit der Button-Funktionalitaet
+			// EIngabe, Innen
+			
+			verwaltung.initInitiator(eingabeInitiator, innen);
 		});
 		
+		// Berechne Generator
 		calculateGenerator.setOnAction(e -> {
-			String eingabeGenerator = generatorPoints.getText();
-			System.out.println(eingabeGenerator); // Ersichtlichkeit der Button-Funktionalitaet
+			String eingabeGenerator;
+			int code;
+			
+			if(toggleGenerators.getSelectedToggle().equals(generator1)) {
+				// Generator 1
+				code = 0;
+				eingabeGenerator = "";
+			}
+			else if(toggleGenerators.getSelectedToggle().equals(generator2)) {
+				// Generator 2
+				code = 1;
+				eingabeGenerator = "";
+			}
+			else {
+				// Generator Custom
+				code = 2;
+				eingabeGenerator = generatorPoints.getText();
+			}
+			
+			verwaltung.initGenerator(code, eingabeGenerator);
+			
+			System.out.println(eingabeGenerator); // Debug
 		});
 		
-		exportScreenshot.setOnAction(e -> {
+		
+		// Screenshot
+		exportScreenshot.setOnAction(e -> { 	// Funktioniert noch nicht
+
+			//StackPane shotPane = layoutRight;
+			//Scene shotScene = new Scene(layoutRight);	
 			WritableImage image = scene.snapshot(null);
 			Boolean worked = true;
 			String s = new String("Snapshot.png");
@@ -294,6 +362,7 @@ public class Display {
 		
 
 		// Stage bearbeiten
+		stage.setTitle("Kochkurven - stetige, aber undifferenzierbare Funktionen!");
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
@@ -308,5 +377,33 @@ public class Display {
 			}
 		});
 	}
-
+	
+	public void communicate(String message) {
+		// Tu aufgrund von message etwas
+		System.out.println(message);
+		
+		
+		if(message.equals("Initiator erfolgreich berechnet.")) {
+			successInitiator.setVisible(true);
+		}
+		else if(message.equals("Initiator konnte nicht berechnet werden.")) {
+			successInitiator.setVisible(false);
+			//Error-Meldung
+			NoExitBox.display("FehlerMeldung - Initiatorberechnung", "Initiator konnte nicht berechnet werden. Bitte pruefen sie ihre Eingabe.");
+		}
+		else if(message.equals("Generator erfolgreich berechnet.")) {
+			successGenerator.setVisible(true);
+		}
+		else if(message.equals("Generator konnte nicht berechnet werden.")) {
+			successGenerator.setVisible(false);
+			//Error-Meldung
+			NoExitBox.display("FehlerMeldung - Generatorberechnung", "Generator konnte nicht berechnet werden. Bitte pruefen sie ihre Eingabe.");
+		}
+	}
+	
+	public void zeichneAlleLinien(List<Linie> linien) {
+		// Zeichne alle Linien aus linien
+		
+		
+	}
 }

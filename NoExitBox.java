@@ -32,7 +32,10 @@ public class NoExitBox {
 		stayButton.setTranslateX(-66.0);
 		stayButton.setTranslateY(-25.0);
 		
-		
+		window.setOnCloseRequest(e -> {
+			answer = true;
+			window.close();
+		});
 		closeButton.setOnAction(e -> {
 			answer = false;
 			window.close();
