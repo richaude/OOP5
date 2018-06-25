@@ -17,46 +17,31 @@ public class Verwaltung {
 	
 	
 	
-	public void initInitiator(String eingabe, boolean innen) {
-		StringBuilder builder = new StringBuilder(eingabe);
-		char c = builder.charAt(0);
-	//	System.out.println(c);
-		
-		if(c == '1') {
-		// Mode 1, erzeuge Initiator: Gerade-Linie
-			
-		} 
-		else if (c == '2'){
-		// Mode 2, erzeuge Initiator Quadrat, aussen
-			
-		}
-		else if (c == '3'){
-		// Mode 3, erzeuge Initiator Quadrat, innen	
-			
-		}
-		else if (c == '4'){
-		// Mode 4, erzeuge Initiator:gleichseitiges Dreieck	
-			
-		}
-		else {
-		// Mode 5, erzeuge custom Initiator
-			
-			
-			
-		}
-		
+	public void initInitiator(String eingabe) {
+
+			// Uebergebe Initiator seine Punkte und die Ausrichtung
+			// Text muss noch formattiert werden
+			this.initiator = new Initiator(eingabe);
+			if(!this.initiator.getSuccess()) {
+				display.communicate("Fehler beim Uebergeben des Initiators! Bitte achten sie auf die Eingabe-Maske!");
+			}
+			else {
+				System.out.println("Erfolgreiche Uebergabe, eingabe :=" + eingabe + ";;;;; ");
+			}
 	}
 	public void initGenerator(int code, String eingabe) {
 		if(code == 0) {
 			// 0 fuer Gen 1
+			this.generator = new Generator1();
 		}
 		else if(code == 1) {
 			// 1 fuer Gen 2
+			this.generator = new Generator2();
 		}
 		else {
-			// 2 fuer GenCustom
+			// 2 fuer GenCustom, Text ist nicht formattiert!, uebergib dann die Punkte
 		}
-		
+		System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code);
 	}
 	
 	//	display.communicate("Works");
@@ -66,10 +51,10 @@ public class Verwaltung {
 		List<Linie> finalLines = new ArrayList<Linie>();
 		boolean mindestlaenge = false;
 		
-		do {
+		/*do {
 			mindestlaenge = false;
 			Linie currentLinie = currentLines.get(0);
-			if(currentLinie.getLaenge() >= this.generator.getMinL()) {
+			if(currentLinie.getLaenge() >= this.generator.()) {
 				// Mindestlaenge erreicht
 				for(Linie l: currentLines) {
 					// Wende Generator auf Linie an und speicher die Ergebnisse
@@ -79,6 +64,7 @@ public class Verwaltung {
 			}
 		}
 		while(mindestlaenge);
+		*/
 		this.alleLinien = finalLines;
 		display.zeichneAlleLinien(alleLinien);
 	}

@@ -15,6 +15,9 @@ public abstract class Generator {
 		this.linie = linie; 
 		this.minL = minL;
 	}
+	public Generator() {
+		
+	}
 	
 	public abstract void produziereLinien(boolean innen);
 

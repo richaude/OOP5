@@ -62,13 +62,15 @@ public class Display {
 		// Elemente
 		
 			// Labels
-																				//	TextFlow text = new TextFlow();
-			
+																		
 			Label startTextLabel = new Label("Kochkurven - Programm");
 			Label initiatorLabel1 = new Label("Initiators:");
-			Label initiatorLabel2 = new Label("Zu verwendende Punkte (Custom):");
+			Label initiatorLabel2 = new Label("Zu verwendende Werte (Custom):");
+			Label initiatorLabel3 = new Label("Eingabe-Maske:    '(a,b);(c,d);...;innen'");
+			Label initiatorLabel4 = new Label("Am Schluss Ausrichtung der Linien! (Innen/Aussen)");
 			Label generatorLabel1 = new Label("Generators:");
-			Label generatorLabel2 = new Label("Zu verwendende Punkte (Custom):");
+			Label generatorLabel2 = new Label("Zu verwendende Werte (Custom):");
+			Label generatorLabel3 = new Label("Eingabe-Maske:    '(a,b);(c,d);...;minLaenge'");
 			successInitiator = new Label("Initiator erfolgreich aufgenommen!");
 			successGenerator = new Label("Generator erfolgreich aufgenommen!");
 			
@@ -151,7 +153,9 @@ public class Display {
 		layoutLeft.getChildren().add(placeHolder1);
 		layoutLeft.getChildren().add(initiatorLabel2);
 		layoutLeft.getChildren().add(initiatorPoints);
-		layoutLeft.getChildren().add(placeHolder3);
+		layoutLeft.getChildren().add(initiatorLabel3);
+		layoutLeft.getChildren().add(initiatorLabel4);
+		layoutLeft.getChildren().add(placeHolder4);
 		layoutLeft.getChildren().add(calculateInitiator);
 		
 		layoutLeft.getChildren().add(placeHolder7);
@@ -164,7 +168,8 @@ public class Display {
 		layoutLeft.getChildren().add(placeHolder2);
 		layoutLeft.getChildren().add(generatorLabel2);
 		layoutLeft.getChildren().add(generatorPoints);
-		layoutLeft.getChildren().add(placeHolder4);
+		layoutLeft.getChildren().add(generatorLabel3);
+		layoutLeft.getChildren().add(placeHolder3);
 		layoutLeft.getChildren().add(calculateGenerator);
 		layoutLeft.getChildren().add(placeHolder9);
 		layoutLeft.getChildren().add(starteBerechnung);
@@ -187,6 +192,7 @@ public class Display {
 		initiator4.setTranslateX(3.0);
 		initiatorCustom.setTranslateX(3.0);
 		initiatorLabel2.setTranslateX(4.0);
+		initiatorLabel3.setTranslateX(4.0);
 		calculateInitiator.setTranslateX(42.0);
 		
 		generatorLabel1.setTranslateX(4.0);
@@ -194,6 +200,7 @@ public class Display {
 		generator2.setTranslateX(3.0);
 		generatorCustom.setTranslateX(3.0);
 		generatorLabel2.setTranslateX(4.0);
+		generatorLabel3.setTranslateX(4.0);
 		calculateGenerator.setTranslateX(42.0);
 		successInitiator.setTranslateX(23.0);
 		successGenerator.setTranslateX(19.0);
@@ -217,72 +224,57 @@ public class Display {
 		
 		// Berechne Initiator
 		calculateInitiator.setOnAction(e -> {
-			String eingabeInitiator = new String("");
 			String eingabe;
-			boolean innen = false;
 			
 			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
 				// Gerade Linie
-				eingabeInitiator = "";
-				innen = false;
-				eingabe = "1" + eingabeInitiator;
+				eingabe = "(10,0);(30,0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
 				// Quadrat, Kurven aussen
-				eingabeInitiator = "";
-				innen = false;
-				eingabe = "2" + eingabeInitiator;
+				eingabe = "(10,0);(20,0);(20,10);(10,10);(10,0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
 				// Quadrat, Kurven innen
-				eingabeInitiator = "";
-				innen = true;
-				eingabe = "3" + eingabeInitiator;
+				eingabe = "(10,0);(20,0);(20,10);(10,10);(10,0);innen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
-				eingabeInitiator = "";
-				innen = false;
-				eingabe = "4" + eingabeInitiator;
+				eingabe = "(2,0);(3,1.73);(4,0);(2,0);aussen";
 			}
 			else {
-				// Initiator Custom, unterscheide noch Kurvenrichtung
-				 eingabeInitiator = initiatorPoints.getText();
-				 // Ermittle Kurvenrichtung
-				 eingabe = "5" + eingabeInitiator;
-			}
-			
-		
+				// Initiator Custom, unterscheide noch Kurvenrichtung,
+				eingabe = initiatorPoints.getText();
+					// Ermittle Kurvenrichtung
+
+			}		
 			System.out.println(eingabe); // Ersichtlichkeit der Button-Funktionalitaet
 			// EIngabe, Innen
-			
-			verwaltung.initInitiator(eingabe, innen);
+			verwaltung.initInitiator(eingabe);
 		});
 		
 		// Berechne Generator
 		calculateGenerator.setOnAction(e -> {
-			String eingabeGenerator;
+			String eingabe;
 			int code;
 			
 			if(toggleGenerators.getSelectedToggle().equals(generator1)) {
 				// Generator 1
 				code = 0;
-				eingabeGenerator = "";
+				eingabe = "";
 			}
 			else if(toggleGenerators.getSelectedToggle().equals(generator2)) {
 				// Generator 2
 				code = 1;
-				eingabeGenerator = "";
+				eingabe = "";
 			}
 			else {
 				// Generator Custom
 				code = 2;
-				eingabeGenerator = generatorPoints.getText();
+				eingabe = generatorPoints.getText();
 			}
+			verwaltung.initGenerator(code, eingabe);
 			
-			verwaltung.initGenerator(code, eingabeGenerator);
-			
-			System.out.println(eingabeGenerator); // Debug
 		});
 		
 		
@@ -406,4 +398,19 @@ public class Display {
 		
 		
 	}
+	
+	private boolean checkText(String text) {
+		boolean rueckgabe = false;
+		if(!text.contains(";")) {
+			return false;
+		}
+		String[] points = text.split(";");
+		
+		// Teste text
+	
+	
+	
+		return rueckgabe;
+	}
+	
 }

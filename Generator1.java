@@ -9,6 +9,10 @@ public class Generator1 extends Generator {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Generator1() {
+		
+	}
+	
 	@Override
 	public void produziereLinien(boolean innen) {
 		Linie ausgangsLinie = getLinie();
