@@ -2,6 +2,8 @@ package kochkurven;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Initiator {
 	private String eingabe;
@@ -17,11 +19,56 @@ public class Initiator {
 
 	private void parseString() {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
-		
-		
-		
-		
-		this.success = true;
+			// FehlerSuche, fange noch Laenge 1 und 0 ab
+			String[] punkte = eingabe.split(";");
+			int lastItem = punkte.length-1;
+			if(!eingabe.contains(";")) {
+				this.success = false;
+				System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
+				return;
+			}
+			else {
+				//Zuerst die Ausrichtung
+				if(punkte[lastItem].trim().toLowerCase().equals("innen")) {
+					this.innen = true;
+				}
+				else if(punkte[lastItem].trim().toLowerCase().equals("aussen")) {
+					this.innen = false;
+				}
+				else {
+					// Keine valide Ausrichtung
+					this.success = false;
+					return;
+				}
+				
+				// Jetzt die Punkte
+				
+				for(int i = 0; i<lastItem-1; i++) {
+					int j = i + 1;
+					// Punkte haben die Form "(x.y,a.b)"
+					String[] word1 = punkte[i].split(",");
+					String[] word2 = punkte[j].split(",");
+					String xCoord1 = word1[0].substring(1);
+					String yCoord1 = word1[1].substring(0,word1[0].length()-2);
+					String xCoord2 = word2[0].substring(1);
+					String yCoord2 = word2[1].substring(0,word2[0].length()-2);
+					System.out.println("X1:= "+xCoord1+" Y1:= "+yCoord1+" X2:= "+xCoord2+" Y2:= " +yCoord2);
+
+					Linie linie = new Linie(Double.parseDouble(xCoord1),Double.parseDouble(yCoord1),Double.parseDouble(xCoord2),Double.parseDouble(yCoord2));
+					this.linien.add(linie);
+				}
+				
+				/*
+				Pattern pattern = Pattern.compile("[0-9].[0-9]");
+				Matcher m = pattern.matcher("8.0");
+				boolean b = m.matches();
+				System.out.println(b);
+				*/
+				
+				// Linien sind gefuellt
+				
+				this.success = true;
+			}
 	}
 	public List<Linie> getLinien() {
 		return this.linien;

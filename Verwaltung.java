@@ -15,10 +15,8 @@ public class Verwaltung {
 		this.display = display;
 	}
 	
-	
-	
 	public void initInitiator(String eingabe) {
-
+		
 			// Uebergebe Initiator seine Punkte und die Ausrichtung
 			// Text muss noch formattiert werden
 			this.initiator = new Initiator(eingabe);
@@ -28,6 +26,8 @@ public class Verwaltung {
 			else {
 				System.out.println("Erfolgreiche Uebergabe, eingabe :=" + eingabe + ";;;;; ");
 			}
+			System.out.println(this.initiator.getLinien().isEmpty());
+			this.display.zeichneAlleLinien(this.initiator.getLinien());
 	}
 	public void initGenerator(int code, String eingabe) {
 		if(code == 0) {
@@ -41,7 +41,9 @@ public class Verwaltung {
 		else {
 			// 2 fuer GenCustom, Text ist nicht formattiert!, uebergib dann die Punkte
 		}
-		System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code);
+		System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code+" Jetzt TEST:");
+
+
 	}
 	
 	//	display.communicate("Works");

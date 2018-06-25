@@ -67,7 +67,7 @@ public class Display {
 			Label startTextLabel = new Label("Kochkurven - Programm");
 			Label initiatorLabel1 = new Label("Initiators:");
 			Label initiatorLabel2 = new Label("Zu verwendende Werte (Custom):");
-			Label initiatorLabel3 = new Label("Eingabe-Maske:    '(a,b);(c,d);...;innen'");
+			Label initiatorLabel3 = new Label("Eingabe-Maske:    '(a.b,c.d);(e.f,g.h);...;innen'");
 			Label initiatorLabel4 = new Label("Am Schluss Ausrichtung der Linien! (Innen/Aussen)");
 			Label generatorLabel1 = new Label("Generators:");
 			Label generatorLabel2 = new Label("Zu verwendende Werte (Custom):");
@@ -227,14 +227,14 @@ public class Display {
 		// Berechne Initiator
 		calculateInitiator.setOnAction(e -> {
 			String eingabe;
-			
+			//this.layoutRight = new StackPane();
 			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
 				// Gerade Linie
-				eingabe = "(10,0);(30,0);aussen";
+				eingabe = "(10,0);(99,0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
 				// Quadrat, Kurven aussen
-				eingabe = "(10,0);(20,0);(20,10);(10,10);(10,0);aussen";
+				eingabe = "(10,0);(99,0);(99,99);(10,99);(10,10);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
 				// Quadrat, Kurven innen
@@ -384,26 +384,14 @@ public class Display {
 	
 	public void zeichneAlleLinien(List<Linie> linien) {
 		// Zeichne alle Linien aus linien
-		
-		// Elemente
-		
-		Line line = new Line(0.0,0.0,100.0,100.0);
-		this.layoutRight.getChildren().add(line);
-		
-	}
-	
-	private boolean checkText(String text) {
-		boolean rueckgabe = false;
-		if(!text.contains(";")) {
-			return false;
+		for(Linie l : linien) {
+			Line line = new Line(l.getStart().getX(),l.getStart().getY(),l.getEnd().getX(),l.getEnd().getY());
+			this.layoutRight.getChildren().add(line);
 		}
-		String[] points = text.split(";");
+		// Elemente
+	
 		
-		// Teste text
-	
-	
-	
-		return rueckgabe;
+		
 	}
-	
+
 }
