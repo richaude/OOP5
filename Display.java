@@ -3,8 +3,8 @@ package kochkurven;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -18,6 +18,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class Display {
@@ -219,6 +220,7 @@ public class Display {
 		// Button - Funktionalitaet
 		
 		starteBerechnung.setOnAction(e -> {
+			zeichneAlleLinien(new ArrayList<Linie>());
 			this.verwaltung.verwalten();
 		});
 		
@@ -336,20 +338,7 @@ public class Display {
 		// Pane ist layoutRight
 		//
 		
-		// Elemente
-		
-			// Text
-		
-		//	Text t1 = new Text("haaaalllellllulllja");
-		
-		//	t1.setFill(Color.RED);
-		//	t1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-			
-		//	layoutRight.getChildren().add(t1);
-		
-				
-		//
-		//
+
 		// Abschluss
 		//
 		//
@@ -396,6 +385,10 @@ public class Display {
 	public void zeichneAlleLinien(List<Linie> linien) {
 		// Zeichne alle Linien aus linien
 		
+		// Elemente
+		
+		Line line = new Line(0.0,0.0,100.0,100.0);
+		this.layoutRight.getChildren().add(line);
 		
 	}
 	
