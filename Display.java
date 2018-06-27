@@ -50,7 +50,7 @@ public class Display {
 		Scene scene = new Scene(layoutControl, 1000, 700);
 		
 		// Divider Setzen 
-		layoutControl.setDividerPosition(0, 0.24);
+		layoutControl.setDividerPosition(0, 0.305);
 		
 		
 		//
@@ -71,7 +71,7 @@ public class Display {
 			Label initiatorLabel4 = new Label("Am Schluss Ausrichtung der Linien! (Innen/Aussen)");
 			Label generatorLabel1 = new Label("Generators:");
 			Label generatorLabel2 = new Label("Zu verwendende Werte (Custom):");
-			Label generatorLabel3 = new Label("Eingabe-Maske:    '(a,b);(c,d);...;minLaenge'");
+			Label generatorLabel3 = new Label("Eingabe-Maske:    '(0.0,a.b);(c.d,e.f);...;(x.y,1.0);minLaenge'");
 			successInitiator = new Label("Initiator erfolgreich aufgenommen!");
 			successGenerator = new Label("Generator erfolgreich aufgenommen!");
 			
@@ -220,7 +220,7 @@ public class Display {
 		// Button - Funktionalitaet
 		
 		starteBerechnung.setOnAction(e -> {
-			zeichneAlleLinien(new ArrayList<Linie>());
+			//zeichneAlleLinien(new ArrayList<Linie>());
 			this.verwaltung.verwalten();
 		});
 		
@@ -230,27 +230,26 @@ public class Display {
 			//this.layoutRight = new StackPane();
 			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
 				// Gerade Linie
-				eingabe = "(10,0);(99,0);aussen";
+				eingabe = "(10.0,0.0);(99.0,0.0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
 				// Quadrat, Kurven aussen
-				eingabe = "(10,0);(99,0);(99,99);(10,99);(10,10);aussen";
+				eingabe = "(10.0,0.0);(99.0,0.0);(99.0,99.0);(10.0,99.0);(10.0,10.0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
 				// Quadrat, Kurven innen
-				eingabe = "(10,0);(20,0);(20,10);(10,10);(10,0);innen";
+				eingabe = "(10.0,0.0);(20.0,0.0);(20.0,10.0);(10.0,10.0);(10.0,0.0);innen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
-				eingabe = "(2,0);(3,1.73);(4,0);(2,0);aussen";
+				eingabe = "(2.0,0.0);(3.0,1.73);(4.0,0.0);(20.0,0.0);aussen";
 			}
 			else {
 				// Initiator Custom, unterscheide noch Kurvenrichtung,
 				eingabe = initiatorPoints.getText();
 					// Ermittle Kurvenrichtung
-
 			}		
-			System.out.println(eingabe); // Ersichtlichkeit der Button-Funktionalitaet
+			//	System.out.println(eingabe); // Ersichtlichkeit der Button-Funktionalitaet
 			// EIngabe, Innen
 			verwaltung.initInitiator(eingabe);
 		});

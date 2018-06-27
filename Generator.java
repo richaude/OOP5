@@ -34,5 +34,8 @@ public abstract class Generator {
 	public void setLinie(double startX, double startY, double endX, double endY) {
 		linie.setLinie(startX, startY, endX, endY);
 	}
+	public void setMinL(double minL) {
+		this.minL = minL;
+	}
 
 }
