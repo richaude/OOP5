@@ -44,4 +44,8 @@ public class Linie {
 		endX = neuEndX;
 		endY = neuEndY;
 	}
+	public String toString() {
+		String finalString = new String("Linie von (" + this.startX +","+this.startY+") zu ("+this.endX+","+this.endY+")");	
+		return finalString;
+	}	
 }
