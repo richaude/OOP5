@@ -356,6 +356,14 @@ public class Display {
 				e.consume();
 			}
 		});
+		
+		
+		// Debug
+		List<Linie> lul = new ArrayList<Linie>();
+			lul.add(new Linie(10, 0, 50, 0));
+			lul.add(new Linie(50, 0, 50, 20));
+		//	lul.add(new Linie(10, 0, 50, 0));
+		zeichneAlleLinien(lul);
 	}
 	
 	public void communicate(String message) {
