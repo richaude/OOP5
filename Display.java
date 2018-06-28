@@ -1,23 +1,33 @@
 package kochkurven;
-
-
+// Color-Picker waere noch cool
+// Linien sollten besser zentriert werden
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
@@ -26,20 +36,24 @@ public class Display {
 	private Verwaltung verwaltung;
 	private Stage stage;
 	private VBox layoutLeft;
-	private StackPane layoutRight;
+	private Pane layoutRight;
 	private SplitPane layoutControl;
+	private BorderPane layoutUpside;
 	private Label successInitiator;
 	private Label successGenerator;
+	private Paint paintColor;
 	
 	
 	public Display(Stage stage) {
 		this.stage = stage;
 		this.verwaltung = new Verwaltung(this);
 		
-		// Layouts einrichten, Freezen!
+		// Layouts einrichten
+		layoutUpside = new BorderPane();
 		layoutLeft = new VBox();
-		layoutRight = new StackPane();
+		layoutRight = new Pane();
 		layoutControl = new SplitPane(layoutLeft, layoutRight);
+		paintColor = Color.RED;
 	}
 	
 	
@@ -47,11 +61,65 @@ public class Display {
 		
 		//Scene Initialisieren
 		
-		Scene scene = new Scene(layoutControl, 1000, 700);
+		Scene scene = new Scene(layoutUpside, 1000, 700);
+		layoutUpside.setCenter(layoutControl);
 		
-		// Divider Setzen 
-		layoutControl.setDividerPosition(0, 0.305);
+		// MenuBar
+		MenuBar menuBar = new MenuBar();	
 		
+		//	Menu
+		Menu optionMenu = new Menu("Options"); 
+
+		// MenuItems
+		MenuItem m1 = new MenuItem("Export Snapshot");
+		MenuItem m2 = new MenuItem("Quit Programm");
+		MenuItem separator = new SeparatorMenuItem();
+		
+		// Linking
+		optionMenu.getItems().addAll(m1,separator,m2);
+		menuBar.getMenus().add(optionMenu);
+		layoutUpside.setTop(menuBar);
+		
+		// Funktionalitaet
+		m2.setOnAction(e -> {
+			boolean answer = NoExitBox.display("Really=?", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster...");
+			if(!answer) {
+				Platform.exit();
+			}
+		});
+		
+		// Screenshot
+		m1.setOnAction(e -> { 	// Funktioniert noch nicht
+
+			//Stage shotStage = new Stage();
+			Scene shotScene = new Scene(layoutRight);	// Macht probleme
+
+			WritableImage image = shotScene.snapshot(null);
+			Boolean worked = true;
+			String s = new String("Snapshot");
+			File outputfile = new File(s + new Date().getTime() +".png");
+			
+			try {
+				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputfile);
+			}
+			catch(IOException ioex) {
+				System.out.println("Fail");
+				worked = false;
+			}
+			if(worked) {
+				// Schreibe Erfolgsmeldung!
+				NoExitBox.display("Save-Info", "Datei " + s + " erfolgreich gespeichert!");
+			}
+		});
+		
+		
+		// Divider Setzen und freezen
+		double dividerPos = 0.305;
+		layoutControl.setDividerPosition(0, dividerPos);
+		Divider d = layoutControl.getDividers().get(0);
+		d.positionProperty().addListener(e -> {
+			d.setPosition(dividerPos);
+		});
 		
 		//
 		//
@@ -112,8 +180,8 @@ public class Display {
 			Button calculateInitiator = new Button("Berechne Initiator");
 			Button calculateGenerator = new Button("Berechne Generator");
 			Button starteBerechnung = new Button("Kalkuliere Kurven");
-			Button exportScreenshot = new Button("Exportiere Bilddatei");
-			Button quitProgramm = new Button("Beende das Programm");
+		//	Button exportScreenshot = new Button("Exportiere Bilddatei");
+		//	Button quitProgramm = new Button("Beende das Programm");
 			// ToggleGroups -> Nur ein RadioButton darf aktiviert sein
 			
 			ToggleGroup toggleInitiators = new ToggleGroup();
@@ -179,9 +247,9 @@ public class Display {
 		layoutLeft.getChildren().add(successInitiator);
 		layoutLeft.getChildren().add(successGenerator);
 		layoutLeft.getChildren().add(placeHolder10);
-		layoutLeft.getChildren().add(exportScreenshot);
+	//	layoutLeft.getChildren().add(exportScreenshot);
 		layoutLeft.getChildren().add(placeHolder11);
-		layoutLeft.getChildren().add(quitProgramm);
+	//	layoutLeft.getChildren().add(quitProgramm);
 		
 		// Ausrichtung der Elemente bearbeiten
 		
@@ -207,8 +275,8 @@ public class Display {
 		successGenerator.setTranslateX(19.0);
 		starteBerechnung.setMinSize(180.0, 45.0);
 		starteBerechnung.setTranslateX(30.0);
-		exportScreenshot.setTranslateX(41.0);
-		quitProgramm.setTranslateX(39.0);
+	//	exportScreenshot.setTranslateX(41.0);
+	//	quitProgramm.setTranslateX(39.0);
 		
 		// Sichtbarkeit
 		
@@ -279,35 +347,7 @@ public class Display {
 		});
 		
 		
-		// Screenshot
-		exportScreenshot.setOnAction(e -> { 	// Funktioniert noch nicht
 
-			//StackPane shotPane = layoutRight;
-			//Scene shotScene = new Scene(layoutRight);	
-			WritableImage image = scene.snapshot(null);
-			Boolean worked = true;
-			String s = new String("Snapshot.png");
-			File outputfile = new File(s);
-			
-			try {
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputfile);
-			}
-			catch(IOException ioex) {
-				System.out.println("Fail");
-				worked = false;
-			}
-			if(worked) {
-				// Schreibe Erfolgsmeldung!
-				NoExitBox.display("Save-Info", "Datei " + s + " erfolgreich gespeichert!");
-			}
-		});
-		
-		quitProgramm.setOnAction(e -> {
-			boolean answer = NoExitBox.display("Tu das nicht....", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster");
-			if(!answer) {
-				Platform.exit();
-			}
-		});
 		
 		
 		// Radio-Button Funktionalitaet
@@ -360,9 +400,7 @@ public class Display {
 		
 		// Debug
 		List<Linie> lul = new ArrayList<Linie>();
-			lul.add(new Linie(10, 0, 50, 0));
-			lul.add(new Linie(50, 0, 50, 20));
-		//	lul.add(new Linie(10, 0, 50, 0));
+			lul.add(new Linie(10, 0, 100, 0));
 		zeichneAlleLinien(lul);
 	}
 	
@@ -390,9 +428,14 @@ public class Display {
 	}
 	
 	public void zeichneAlleLinien(List<Linie> linien) {
+		double xOffset = 300.0;
+		double yOffset = 350.0;
 		// Zeichne alle Linien aus linien
 		for(Linie l : linien) {
-			Line line = new Line(l.getStart().getX(),l.getStart().getY(),l.getEnd().getX(),l.getEnd().getY());
+			// Erzeuge Linien und zentriere sie
+			Line line = new Line(l.getStart().getX()+ xOffset,l.getStart().getY() + yOffset,l.getEnd().getX() + xOffset,l.getEnd().getY() + yOffset);
+			
+			line.setStroke(this.paintColor);
 			this.layoutRight.getChildren().add(line);
 		}
 		// Elemente
