@@ -3,6 +3,8 @@ package kochkurven;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.geometry.Point2D;
+
 public class Verwaltung {
 	
 	private Initiator initiator;
@@ -55,17 +57,12 @@ public class Verwaltung {
 		else {
 			
 			this.generator = new GeneratorCustom();
-			boolean failed = false;
-			
-			
 			
 			// 2 fuer GenCustom, Text ist nicht formattiert!, uebergib dann die Punkte
 			System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code+" Jetzt TEST:");
 		
-			
-			
-
-			
+			boolean failed = uebergibGenerator(eingabe);
+						
 			// Rueckmeldung
 			
 			if(failed) {
@@ -134,5 +131,60 @@ public class Verwaltung {
 			this.alleLinien = finalLines;
 			display.zeichneAlleLinien(alleLinien);
 		}
+	}
+	private boolean uebergibGenerator(String eingabe) {
+		boolean failed = false;
+		
+		
+		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
+					// FehlerSuche, fange noch Laenge 1 und 0 ab
+					String[] punkte = eingabe.split(";");
+					Double lastItem = Double.parseDouble(punkte[punkte.length-1]);
+					if(!eingabe.contains(";")) {
+						System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
+						return true;
+					}
+					else {
+						//Zuerst die Ausrichtung
+					
+						if(lastItem <= 0) {
+							System.out.println("Debug: Linie kleiner gleich 0");
+							return true;
+						}
+						
+						List<Point2D> allePunkte = new ArrayList<Point2D>();
+						// Jetzt die Punkte
+						
+						for(int i = 0; i<lastItem-1; i++) {
+							// Punkte haben die Form "(x.y,a.b)"
+							String[] word1 = punkte[i].split(",");
+							
+							String xCoordString = word1[0].replace('(', ' ').replace(')', ' ').trim();
+							String yCoordString = word1[1].replace('(', ' ').replace(')', ' ').trim();
+							Double xCoord = Double.parseDouble(xCoordString);
+							Double yCoord = Double.parseDouble(yCoordString);
+							// System.out.println("X1:= "+xCoord1+" Y1:= "+yCoord1+" X2:= "+xCoord2+" Y2:= " +yCoord2);
+							Point2D point = new Point2D(xCoord,yCoord);
+							allePunkte.add(point);
+							
+							//System.out.println(linie);
+						}
+						this.generator = new GeneratorCustom(allePunkte);
+						this.generator.setMinL(lastItem);
+					
+					}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//this.generator.minL
+		//this.generator;
+		return failed;
 	}
 }

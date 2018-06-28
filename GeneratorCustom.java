@@ -1,5 +1,9 @@
 package kochkurven;
 
+import java.util.List;
+
+import javafx.geometry.Point2D;
+
 public class GeneratorCustom extends Generator {
 
 	public GeneratorCustom(Linie linie, double minL) {
@@ -8,6 +12,9 @@ public class GeneratorCustom extends Generator {
 	}
 	
 	public GeneratorCustom() {
+		
+	}
+	public GeneratorCustom(List<Point2D> punkte) {
 		
 	}
 
