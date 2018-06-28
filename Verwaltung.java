@@ -61,7 +61,7 @@ public class Verwaltung {
 			this.generator = new GeneratorCustom();
 			
 			// 2 fuer GenCustom, Text ist nicht formattiert!, uebergib dann die Punkte
-			System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code+" Jetzt TEST:");
+			// System.out.println("Generator angekommen, Eingabe:=" + eingabe +"; UnfallCode :="+code+" Jetzt TEST:");
 		
 			boolean failed = uebergibGenerator(eingabe);
 						
