@@ -6,6 +6,10 @@ public class GeneratorCustom extends Generator {
 		super(linie, minL);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public GeneratorCustom() {
+		
+	}
 
 	@Override
 	public void produziereLinien(boolean innen) {

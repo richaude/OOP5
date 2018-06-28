@@ -388,9 +388,5 @@ public class Display {
 			this.layoutRight.getChildren().add(line);
 		}
 		// Elemente
-	
-		
-		
 	}
-
 }

@@ -16,6 +16,9 @@ public class Initiator {
 		this.success = false;
 		parseString();
 	}
+	public Initiator() {
+		this.success = false;
+	}
 
 	private void parseString() {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
