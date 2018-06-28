@@ -1,5 +1,7 @@
 package kochkurven;
 
+// Die Hauptschleife fehlt noch!
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,14 +141,15 @@ public class Verwaltung {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
 					// FehlerSuche, fange noch Laenge 1 und 0 ab
 					String[] punkte = eingabe.split(";");
-					Double lastItem = Double.parseDouble(punkte[punkte.length-1]);
 					if(!eingabe.contains(";")) {
 						System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
+						//display.communicate("Generator konnte nicht berechnet werden.");
 						return true;
 					}
+
 					else {
 						//Zuerst die Ausrichtung
-					
+						Double lastItem = Double.parseDouble(punkte[punkte.length-1]);
 						if(lastItem <= 0) {
 							System.out.println("Debug: Linie kleiner gleich 0");
 							return true;
@@ -154,8 +157,8 @@ public class Verwaltung {
 						
 						List<Point2D> allePunkte = new ArrayList<Point2D>();
 						// Jetzt die Punkte
-						
-						for(int i = 0; i<lastItem-1; i++) {
+
+						for(int i = 0; i<punkte.length-1; i++) {
 							// Punkte haben die Form "(x.y,a.b)"
 							String[] word1 = punkte[i].split(",");
 							
@@ -167,24 +170,11 @@ public class Verwaltung {
 							Point2D point = new Point2D(xCoord,yCoord);
 							allePunkte.add(point);
 							
-							//System.out.println(linie);
 						}
 						this.generator = new GeneratorCustom(allePunkte);
 						this.generator.setMinL(lastItem);
 					
 					}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//this.generator.minL
-		//this.generator;
 		return failed;
 	}
 }
