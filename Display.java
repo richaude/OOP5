@@ -3,7 +3,6 @@ package kochkurven;
 // Linien sollten besser zentriert werden
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -91,9 +90,8 @@ public class Display {
 		m1.setOnAction(e -> { 	// Funktioniert noch nicht
 
 			//Stage shotStage = new Stage();
-			Scene shotScene = new Scene(layoutRight);	// Macht probleme
 
-			WritableImage image = shotScene.snapshot(null);
+			WritableImage image = scene.snapshot(null);
 			Boolean worked = true;
 			String s = new String("Snapshot");
 			File outputfile = new File(s + new Date().getTime() +".png");
@@ -297,19 +295,19 @@ public class Display {
 			//this.layoutRight = new StackPane();
 			if(toggleInitiators.getSelectedToggle().equals(initiator1)) {
 				// Gerade Linie
-				eingabe = "(10.0,0.0);(99.0,0.0);aussen";
+				eingabe = "(10.0,0.0);(600.0,0.0);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator2)) {
 				// Quadrat, Kurven aussen
-				eingabe = "(10.0,0.0);(99.0,0.0);(99.0,99.0);(10.0,99.0);(10.0,10.0);aussen";
+				eingabe = "(160.0,-200.0);(460.0,-200.0);(460.0,100.0);(160.0,100.0);(160.0,-200);aussen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator3)) {
 				// Quadrat, Kurven innen
-				eingabe = "(10.0,0.0);(20.0,0.0);(20.0,10.0);(10.0,10.0);(10.0,0.0);innen";
+				eingabe = "(160.0,-200.0);(460.0,-200.0);(460.0,100.0);(160.0,100.0);(160.0,-200);innen";
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
-				eingabe = "(2.0,0.0);(3.0,1.73);(4.0,0.0);(20.0,0.0);aussen";
+				eingabe = "(0.0,-100);(300,419.6);(600.0,-100.0);(0.0,-100.0);aussen";
 			}
 			else {
 				// Initiator Custom, unterscheide noch Kurvenrichtung,
@@ -398,9 +396,9 @@ public class Display {
 		
 		
 		// Debug
-		List<Linie> lul = new ArrayList<Linie>();
-			lul.add(new Linie(10, 0, 100, 0));
-		zeichneAlleLinien(lul);
+		//List<Linie> lul = new ArrayList<Linie>();
+		//	lul.add(new Linie(10, 0, 100, 0));
+		//zeichneAlleLinien(lul);
 	}
 	
 	public void communicate(String message) {
@@ -426,8 +424,8 @@ public class Display {
 		}
 	}
 	
-	public void zeichneAlleLinien(List<Linie> linien) {
-		double xOffset = 300.0;
+	public void zeichneAlleLinien(List<Linie> linien) { 
+		double xOffset = 50.0;
 		double yOffset = 350.0;
 		// Zeichne alle Linien aus linien
 		for(Linie l : linien) {
@@ -437,6 +435,6 @@ public class Display {
 			line.setStroke(this.paintColor);
 			this.layoutRight.getChildren().add(line);
 		}
-		// Elemente
+		System.out.println("Erfolgreich gezeichnet");
 	}
 }

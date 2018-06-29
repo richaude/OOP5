@@ -12,7 +12,7 @@ public class GeneratorCustom extends Generator {
 	}
 	
 	public GeneratorCustom() {
-		
+		super();
 	}
 	public GeneratorCustom(List<Point2D> punkte) {
 		

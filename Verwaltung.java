@@ -81,7 +81,7 @@ public class Verwaltung {
 	//	display.communicate("Works");
 	public void verwalten() {
 	//Wir haben Initiator und Generator, erzeuge nun alle Linien und lass sie Zeichnen.
-		
+		int zaehler = 0;
 		// Fehler abfangen, ACHTUNG: NULL anders abfangen!
 		if(!this.initiator.getSuccess()) {
 			display.communicate("Initiator konnte nicht berechnet werden.");
@@ -95,8 +95,7 @@ public class Verwaltung {
 		else {
 				
 			// Fuehre superSchleife aus
-			System.out.println("Berechnung steht noch aus!");			//Debug
-			
+			System.out.println("Berechnung erfolgt!");			//Debug
 			
 			List<Linie> currentLines = this.initiator.getLinien();
 			/*
@@ -104,31 +103,62 @@ public class Verwaltung {
 				System.out.println(l);
 			}
 			*/
-			List<Linie> finalLines = new ArrayList<Linie>();
-			boolean mindestlaenge = false;
 			
-			/*do {
-				mindestlaenge = false;
-				Linie currentLinie = currentLines.get(0);
-				if(currentLinie.getLaenge() >= this.generator.()) {
-					// Mindestlaenge erreicht
-					for(Linie l: currentLines) {
-						// Wende Generator auf Linie an und speicher die Ergebnisse
+			
+			List<Linie> finalLines = new ArrayList<Linie>();
+			boolean longerAsMinL = false;
+			Double linienlaenge = currentLines.get(0).getLaenge();
+			
+			System.out.println("Minimale Generator-Laenge = "+this.generator.getMinL());
+			if(linienlaenge >= this.generator.getMinL()) {
+				longerAsMinL = true;
+			}
+			else {
+				longerAsMinL = false;
+			}
+
+			
+			while(longerAsMinL) {
+				for(Linie l: currentLines) {
+				//	System.out.println(l);
+					// Wende Generator auf Linie an und speicher die Ergebnisse
+					this.generator.setLinie(l.getStart().getX(), l.getStart().getY(), l.getEnd().getX(), l.getEnd().getY());
+					this.generator.produziereLinien(this.initiator.getInnen());
+					
+					for(Linie m : this.generator.getLinien()) {
+						finalLines.add(m);
 					}
-					mindestlaenge = true;
 					
 				}
+				// Hier sind alle berechneten Linien in finalLines
+				currentLines = new ArrayList<Linie>(finalLines); 
+				
+				for(Linie a : currentLines) {
+					if(a.getLaenge() < this.generator.getMinL()) {
+						longerAsMinL = false;
+					}
+				}
+				
+				
+				zaehler += 1;
+				
+				// Irgendwie bleibt die Linienlaenge gleich
+				//linienlaenge = currentLines.get(0).getLaenge();
+				//System.out.println("Laenge = "+linienlaenge);
+				
+				
+				//if(linienlaenge >= this.generator.getMinL()) {
+				//	System.out.println(linienlaenge +" > = " +this.generator.getMinL());
+				//	longerAsMinL = true;
+				//}
+				//else {
+				//	longerAsMinL = false;
+				//}
+			//	System.out.println("Hat es durchgeschafft");
 			}
-			while(mindestlaenge);
-			*/
 			
 			
-			
-			
-			
-			
-			
-			
+			System.out.println(zaehler);
 			// Uebergabe ans Display
 			this.alleLinien = finalLines;
 			display.zeichneAlleLinien(alleLinien);

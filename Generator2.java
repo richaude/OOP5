@@ -10,7 +10,7 @@ public class Generator2 extends Generator {
 	}
 
 	public Generator2() {
-		
+		super();
 	}
 	
 	@Override

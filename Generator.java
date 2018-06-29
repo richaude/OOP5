@@ -6,8 +6,8 @@ import java.util.List;
 public abstract class Generator {
 
 	private Linie linie;
-	private double minL;
-	private List<Linie> prodLinien;
+	protected double minL;
+	protected List<Linie> prodLinien;
 	
 	
 	
@@ -17,13 +17,12 @@ public abstract class Generator {
 	}
 	
 	public Generator() {
-		
+		this.linie = new Linie(0,0,0,0);
 	}
 	
 	public abstract void produziereLinien(boolean innen);
 
 	public List<Linie> getLinien() {
-		prodLinien = new ArrayList<Linie>();
 		return prodLinien;
 	}
 	
@@ -36,6 +35,9 @@ public abstract class Generator {
 	}
 	public void setMinL(double minL) {
 		this.minL = minL;
+	}
+	public double getMinL() {
+		return this.minL;
 	}
 
 }
