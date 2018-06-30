@@ -1,6 +1,5 @@
 package kochkurven;
-// Color-Picker waere noch cool
-// Linien sollten besser zentriert werden
+// Alle Sachen richtig einruecken
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -10,6 +9,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -30,7 +30,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class Display {
-	// Positionen nochmal justieren, Kommunikation zu Verwaltung innnerhalb Verwaltung, ZeichneLinien-Button
+	
 	private Verwaltung verwaltung;
 	private Stage stage;
 	private VBox layoutLeft;
@@ -59,7 +59,7 @@ public class Display {
 		
 		//Scene Initialisieren
 		
-		Scene scene = new Scene(layoutUpside, 1000, 700);
+		Scene scene = new Scene(layoutUpside, 1000, 710);
 		layoutUpside.setCenter(layoutControl);
 		
 		// MenuBar
@@ -137,6 +137,7 @@ public class Display {
 			Label generatorLabel1 = new Label("Generators:");
 			Label generatorLabel2 = new Label("Zu verwendende Werte (Custom):");
 			Label generatorLabel3 = new Label("Eingabe-Maske:    '(0.0,a.b);(c.d,e.f);...;(x.y,1.0);minLaenge'");
+			Label linienFarbe = new Label("Linienfarbe:");
 			successInitiator = new Label("Initiator erfolgreich aufgenommen!");
 			successGenerator = new Label("Generator erfolgreich aufgenommen!");
 			
@@ -166,6 +167,11 @@ public class Display {
 			RadioButton generator2 = new RadioButton("Generator 2");
 			RadioButton generatorCustom= new RadioButton("Custom - Generator");
 			
+			// ColorPicker
+			
+			ColorPicker colorPicker = new ColorPicker();
+			colorPicker.setValue(Color.RED);
+			colorPicker.setDisable(true);
 			
 			// TextBoxes
 			
@@ -177,8 +183,7 @@ public class Display {
 			Button calculateInitiator = new Button("Berechne Initiator");
 			Button calculateGenerator = new Button("Berechne Generator");
 			Button starteBerechnung = new Button("Kalkuliere Kurven");
-		//	Button exportScreenshot = new Button("Exportiere Bilddatei");
-		//	Button quitProgramm = new Button("Beende das Programm");
+			
 			// ToggleGroups -> Nur ein RadioButton darf aktiviert sein
 			
 			ToggleGroup toggleInitiators = new ToggleGroup();
@@ -244,9 +249,8 @@ public class Display {
 		layoutLeft.getChildren().add(successInitiator);
 		layoutLeft.getChildren().add(successGenerator);
 		layoutLeft.getChildren().add(placeHolder10);
-	//	layoutLeft.getChildren().add(exportScreenshot);
-		layoutLeft.getChildren().add(placeHolder11);
-	//	layoutLeft.getChildren().add(quitProgramm);
+		layoutLeft.getChildren().add(linienFarbe);
+		layoutLeft.getChildren().add(colorPicker);
 		
 		// Ausrichtung der Elemente bearbeiten
 		
@@ -272,8 +276,7 @@ public class Display {
 		successGenerator.setTranslateX(19.0);
 		starteBerechnung.setMinSize(180.0, 45.0);
 		starteBerechnung.setTranslateX(30.0);
-	//	exportScreenshot.setTranslateX(41.0);
-	//	quitProgramm.setTranslateX(39.0);
+		colorPicker.setMinHeight(25);
 		
 		// Sichtbarkeit
 		
@@ -307,7 +310,7 @@ public class Display {
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
-				eingabe = "(0.0,-100);(300,419.6);(600.0,-100.0);(0.0,-100.0);aussen";
+				eingabe = "(0.0,-260);(300,259.6);(600.0,-260.0);(0.0,-260.0);aussen";
 			}
 			else {
 				// Initiator Custom, unterscheide noch Kurvenrichtung,
@@ -317,6 +320,11 @@ public class Display {
 			//	System.out.println(eingabe); // Ersichtlichkeit der Button-Funktionalitaet
 			// EIngabe, Innen
 			verwaltung.initInitiator(eingabe);
+			
+			// ColorPicker aktivieren
+			if(this.successInitiator.isVisible() && this.successGenerator.isVisible()) {
+				colorPicker.setDisable(false);
+			}	
 		});
 		
 		// Berechne Generator
@@ -341,12 +349,20 @@ public class Display {
 			}
 			verwaltung.initGenerator(code, eingabe);
 			
+			// ColorPicker aktivieren
+			if(this.successInitiator.isVisible() && this.successGenerator.isVisible()) {
+				colorPicker.setDisable(false);
+			}	
 		});
 		
+		// Faerbe richtig die Linien
 		
+		colorPicker.setOnAction(e -> {
+			this.paintColor = colorPicker.getValue();	
+		});
+		
+	
 
-		
-		
 		// Radio-Button Funktionalitaet
 			// Fuer Initiatoren
 		toggleInitiators.selectedToggleProperty().addListener(e -> {

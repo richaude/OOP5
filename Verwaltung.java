@@ -169,7 +169,7 @@ public class Verwaltung {
 		
 		
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
-					// FehlerSuche, fange noch Laenge 1 und 0 ab
+					// FehlerSuche, fange noch Laenge 1 und 0 ab; Bitte noch die Ausgangslinien wieder rausnehmen
 					String[] punkte = eingabe.split(";");
 					if(!eingabe.contains(";")) {
 						System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
