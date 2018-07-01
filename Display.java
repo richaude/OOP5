@@ -1,5 +1,5 @@
 package kochkurven;
-// Alle Sachen richtig einruecken
+// Mehrfaches Zeichnen ermoeglichen
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -7,6 +7,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -152,7 +153,6 @@ public class Display {
 			Label placeHolder8 = new Label("");
 			Label placeHolder9 = new Label("");
 			Label placeHolder10 = new Label("");
-			Label placeHolder11 = new Label("");
 			Label placeHolder12 = new Label("");
 
 
@@ -254,7 +254,7 @@ public class Display {
 		
 		// Ausrichtung der Elemente bearbeiten
 		
-		startTextLabel.setTranslateX(32.0);
+		startTextLabel.setTranslateX(70.0);
 		initiatorLabel1.setTranslateX(4.0);
 		initiator1.setTranslateX(3.0);
 		initiator2.setTranslateX(3.0);
@@ -263,7 +263,8 @@ public class Display {
 		initiatorCustom.setTranslateX(3.0);
 		initiatorLabel2.setTranslateX(4.0);
 		initiatorLabel3.setTranslateX(4.0);
-		calculateInitiator.setTranslateX(42.0);
+		initiatorLabel4.setTranslateX(4.0);
+		calculateInitiator.setTranslateX(85.0);
 		
 		generatorLabel1.setTranslateX(4.0);
 		generator1.setTranslateX(3.0);
@@ -271,12 +272,16 @@ public class Display {
 		generatorCustom.setTranslateX(3.0);
 		generatorLabel2.setTranslateX(4.0);
 		generatorLabel3.setTranslateX(4.0);
-		calculateGenerator.setTranslateX(42.0);
-		successInitiator.setTranslateX(23.0);
-		successGenerator.setTranslateX(19.0);
+		calculateGenerator.setTranslateX(85.0);
+		successInitiator.setTranslateX(57.0);
+		successGenerator.setTranslateX(53.0);
 		starteBerechnung.setMinSize(180.0, 45.0);
-		starteBerechnung.setTranslateX(30.0);
+		starteBerechnung.setTranslateX(60.0);
+		
+		linienFarbe.setTranslateX(10.0);
 		colorPicker.setMinHeight(25);
+		colorPicker.setTranslateX(162.0);
+		colorPicker.setTranslateY(-21.0);
 		
 		// Sichtbarkeit
 		
@@ -441,6 +446,13 @@ public class Display {
 	}
 	
 	public void zeichneAlleLinien(List<Linie> linien) { 
+		// Momentane Linien clearen
+		for(Node n : this.layoutRight.getChildren()) {
+			n.setVisible(false);
+		}
+		
+		// Neue Linien Zeichnen
+		
 		double xOffset = 50.0;
 		double yOffset = 350.0;
 		// Zeichne alle Linien aus linien
