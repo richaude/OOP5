@@ -98,15 +98,10 @@ public class Verwaltung {
 			System.out.println("Berechnung erfolgt!");			//Debug
 			
 			List<Linie> currentLines = this.initiator.getLinien();
-			/*
-			for(Linie l : currentLines) {
-				System.out.println(l);
-			}
-			*/
-			
-			
 			List<Linie> finalLines = new ArrayList<Linie>();
 			boolean longerAsMinL = false;
+			
+			
 			Double linienlaenge = currentLines.get(0).getLaenge();
 			
 			System.out.println("Minimale Generator-Laenge = "+this.generator.getMinL());
@@ -130,6 +125,7 @@ public class Verwaltung {
 					}
 					
 				}
+				
 				// Hier sind alle berechneten Linien in finalLines
 				currentLines = new ArrayList<Linie>(finalLines); 
 				
@@ -137,29 +133,18 @@ public class Verwaltung {
 					if(a.getLaenge() < this.generator.getMinL()) {
 						longerAsMinL = false;
 					}
+					// Entferne Alte Linien
+					else if(finalLines.contains(a)) {
+						finalLines.remove(a);
+					}
 				}
 				
-				
 				zaehler += 1;
-				
-				// Irgendwie bleibt die Linienlaenge gleich
-				//linienlaenge = currentLines.get(0).getLaenge();
-				//System.out.println("Laenge = "+linienlaenge);
-				
-				
-				//if(linienlaenge >= this.generator.getMinL()) {
-				//	System.out.println(linienlaenge +" > = " +this.generator.getMinL());
-				//	longerAsMinL = true;
-				//}
-				//else {
-				//	longerAsMinL = false;
-				//}
-			//	System.out.println("Hat es durchgeschafft");
 			}
 			
-			
-			System.out.println(zaehler);
+			System.out.println(zaehler);	// Debug
 			// Uebergabe ans Display
+			
 			this.alleLinien = finalLines;
 			display.zeichneAlleLinien(alleLinien);
 		}

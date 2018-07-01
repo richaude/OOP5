@@ -1,5 +1,6 @@
 package kochkurven;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Generator2 extends Generator {
@@ -11,6 +12,7 @@ public class Generator2 extends Generator {
 
 	public Generator2() {
 		super();
+		this.minL = 1.0;
 	}
 	
 	@Override
@@ -59,10 +61,12 @@ public class Generator2 extends Generator {
 		Linie line1 = new Linie(ausgangsLinie.getStart().getX(), ausgangsLinie.getStart().getY(), p1X, p1Y);
 		Linie line2 = new Linie(p1X, p1Y, p2X, p2Y);
 		Linie line3 = new Linie(p2X, p2Y, ausgangsLinie.getEnd().getX(), ausgangsLinie.getEnd().getY());
-		List<Linie> prodLinien = getLinien();
+		
+		List<Linie> prodLinien = new ArrayList<Linie>();
 		prodLinien.add(line1);
 		prodLinien.add(line2);
 		prodLinien.add(line3);
+		this.prodLinien = prodLinien;
 	}
 
 }

@@ -20,7 +20,8 @@ public class Initiator {
 
 	private void parseString() {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
-			// FehlerSuche, fange noch Laenge 1 und 0 ab
+			
+		// FehlerSuche, 
 			String[] punkte = eingabe.split(";");
 			int lastItem = punkte.length-1;
 			if(!eingabe.contains(";")) {
@@ -28,6 +29,14 @@ public class Initiator {
 				System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
 				return;
 			}
+			// Fange Laenge 1 und 0 ab usw.
+			else if(punkte.length <= 2) {
+				this.success = false;
+				System.out.println("Zu wenige Elemente des Initiators.");
+				return;
+			}
+			
+			
 			else {
 				//Zuerst die Ausrichtung
 				if(punkte[lastItem].trim().toLowerCase().equals("innen")) {
@@ -50,15 +59,31 @@ public class Initiator {
 					String[] word1 = punkte[i].split(",");
 					String[] word2 = punkte[j].split(",");
 					
+					// Leere Punkte abfangen
+					
 					String xCoord1 = word1[0].replace('(', ' ').replace(')', ' ').trim();
 					String yCoord1 = word1[1].replace('(', ' ').replace(')', ' ').trim();
 					String xCoord2 = word2[0].replace('(', ' ').replace(')', ' ').trim();
 					String yCoord2 = word2[1].replace('(', ' ').replace(')', ' ').trim();
-					// System.out.println("X1:= "+xCoord1+" Y1:= "+yCoord1+" X2:= "+xCoord2+" Y2:= " +yCoord2);
-
-					Linie linie = new Linie(Double.parseDouble(xCoord1),Double.parseDouble(yCoord1),Double.parseDouble(xCoord2),Double.parseDouble(yCoord2));
-					this.linien.add(linie);
-					//System.out.println(linie);
+					
+					if(xCoord1.equals("") || yCoord1.equals("") || xCoord2.equals("") || yCoord2.equals("")) {
+						System.out.println("Leere Punkte im Initiator-String.");
+						this.success = false;
+						return;
+					}
+					else {
+						// System.out.println("X1:= "+xCoord1+" Y1:= "+yCoord1+" X2:= "+xCoord2+" Y2:= " +yCoord2);
+						try {
+							Linie linie = new Linie(Double.parseDouble(xCoord1),Double.parseDouble(yCoord1),Double.parseDouble(xCoord2),Double.parseDouble(yCoord2));
+							this.linien.add(linie);
+						} 
+						catch(Throwable t) {
+							System.out.println("Fehler beim Linien-Parsen.");
+							this.success = false;
+							return;
+						}	
+						//System.out.println(linie);
+					}
 				}
 				// Linien sind gefuellt
 				
