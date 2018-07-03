@@ -53,7 +53,7 @@ public class Display {
 		layoutLeft = new VBox();
 		layoutRight = new Pane();
 		layoutControl = new SplitPane(layoutLeft, layoutRight);
-		paintColor = Color.RED;
+		paintColor = Color.AQUA;
 	}
 	
 	
