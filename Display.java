@@ -2,6 +2,7 @@ package kochkurven;
 // Mehrfaches Zeichnen ermoeglichen
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -289,6 +290,7 @@ public class Display {
 		successGenerator.setVisible(false);
 		initiatorPoints.setDisable(true);
 		generatorPoints.setDisable(true);
+		starteBerechnung.setDisable(true);
 		
 		// Button - Funktionalitaet
 		
@@ -329,7 +331,12 @@ public class Display {
 			// ColorPicker aktivieren
 			if(this.successInitiator.isVisible() && this.successGenerator.isVisible()) {
 				colorPicker.setDisable(false);
-			}	
+				starteBerechnung.setDisable(false);
+			}
+			else {
+				colorPicker.setDisable(true);
+				starteBerechnung.setDisable(true);
+			}
 		});
 		
 		// Berechne Generator
@@ -357,7 +364,12 @@ public class Display {
 			// ColorPicker aktivieren
 			if(this.successInitiator.isVisible() && this.successGenerator.isVisible()) {
 				colorPicker.setDisable(false);
-			}	
+				starteBerechnung.setDisable(false);
+			}
+			else {
+				colorPicker.setDisable(true);
+				starteBerechnung.setDisable(true);
+			}
 		});
 		
 		// Faerbe richtig die Linien
@@ -447,8 +459,10 @@ public class Display {
 	
 	public void zeichneAlleLinien(List<Linie> linien) { 
 		// Momentane Linien clearen
-		for(Node n : this.layoutRight.getChildren()) {
-			n.setVisible(false);
+		List<Node> temp = new ArrayList<Node>(this.layoutRight.getChildren());
+		for(Node n : temp) {
+			//n.setVisible(false);
+			this.layoutRight.getChildren().remove(n);
 		}
 		
 		// Neue Linien Zeichnen

@@ -120,15 +120,14 @@ public class Verwaltung {
 					this.generator.setLinie(l.getStart().getX(), l.getStart().getY(), l.getEnd().getX(), l.getEnd().getY());
 					this.generator.produziereLinien(this.initiator.getInnen());
 					
+					//System.out.println("\n\n Linien kommen \n\n");
 					for(Linie m : this.generator.getLinien()) {
 						finalLines.add(m);
+					//	System.out.println(m); // Debug
 					}
 					
 				}
-				
-				// Hier sind alle berechneten Linien in finalLines
-				currentLines = new ArrayList<Linie>(finalLines); 
-				
+								
 				for(Linie a : currentLines) {
 					if(a.getLaenge() < this.generator.getMinL()) {
 						longerAsMinL = false;
@@ -138,13 +137,18 @@ public class Verwaltung {
 						finalLines.remove(a);
 					}
 				}
-				
+				// Hier sind alle berechneten Linien in finalLines
+				currentLines = new ArrayList<Linie>(finalLines); 
 				zaehler += 1;
 			}
 			
-			System.out.println(zaehler);	// Debug
+			//System.out.println(zaehler);	
 			// Uebergabe ans Display
 			
+			//for(Linie c: finalLines) {			// Debug
+			//	System.out.println(c);
+			//}
+	
 			this.alleLinien = finalLines;
 			display.zeichneAlleLinien(alleLinien);
 		}
@@ -156,12 +160,22 @@ public class Verwaltung {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
 					// FehlerSuche, fange noch Laenge 1 und 0 ab; Bitte noch die Ausgangslinien wieder rausnehmen
 					String[] punkte = eingabe.split(";");
+					boolean nurZahlen = true;
+					for(char c : eingabe.toCharArray()) {
+						if(Character.isLetter(c)) {
+							nurZahlen = false;
+						}
+					}
 					if(!eingabe.contains(";")) {
 						System.out.println("Debug: Kein ';' Innerhalb der Eingabe");
 						//display.communicate("Generator konnte nicht berechnet werden.");
 						return true;
 					}
-
+					else if(!nurZahlen) {
+						//Fange Buchstaben in der Zeichenkette ab
+						System.out.println("Zahlen am Start");
+						return true;
+					}
 					else {
 						//Zuerst die Ausrichtung
 						Double lastItem = Double.parseDouble(punkte[punkte.length-1]);
