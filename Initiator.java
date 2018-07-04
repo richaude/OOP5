@@ -3,21 +3,40 @@ package kochkurven;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Enthaelt den jeweiligen Initiator, der zur Berechnung der Koch-Kurve gebraucht wird
+ * @author Lukas
+ * @version 1.0
+ */
 public class Initiator {
 	private String eingabe;
 	private List<Linie> linien;
 	private boolean innen, success;
 	
+	
+	/**
+	 * Erstellt einen neuen Initiator, indem parseString() aufgerufen wird und Klassenattribute initialisiert werden 
+	 * @param eingabe enthaelt alle Punkte der Linien, aus denen der Initiator bestehen soll
+	 */
 	public Initiator(String eingabe) {
 		this.eingabe = eingabe;
 		this.linien = new ArrayList<Linie>();
 		this.success = false;
 		parseString();
 	}
+	
+	/**
+	 * Standart-Konstruktor, erzeugt leeren Initiator
+	 */
 	public Initiator() {
 		this.success = false;
 	}
 
+	/**
+	 * Untersucht den String innerhalb des Klassenattributs 'eingabe' auf die richtige Formatierung, ist er richtig formatiert,
+	 * wird ein neuer Initiator erzeugt, die 'linien' gefuellt und 'success' auf true gesetzt, sonst wird eine Debug-Meldung ausgegeben
+	 * und 'success' auf false gelassen
+	 */
 	private void parseString() {
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
 			
@@ -90,16 +109,29 @@ public class Initiator {
 				this.success = true;
 			}
 	}
+	
+	/**
+	 * Gibt die Linien dieses Initiators zurueck
+	 * @return die Linien dieses Initiators
+	 */
 	public List<Linie> getLinien() {
 		return this.linien;
 	}
+	
+	/**
+	 * Gibt die Ausrichtung der Linien des Initiators zurueck
+	 * @return die Ausrichtung der Linien des Initiators
+	 */
 	public boolean getInnen() {
 		return this.innen;
 	}
+	
+	/**
+	 * Gibt den aktuellen Zustand / die Gueltigkeit des Generators zurueck
+	 * @return die Gueltigkeit des Generators
+	 */
 	public boolean getSuccess() {
 		return this.success;
 	}
 	
 }
-
-

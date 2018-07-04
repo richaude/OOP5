@@ -37,6 +37,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+/**
+ * Kuemmert sich um das GUI, das der User am Ende sieht und die Darstellung der auszugebenden Linien
+ * @author Lukas
+ * @version 1.0
+ */
+
 public class Display {
 	
 	private Verwaltung verwaltung;
@@ -50,7 +56,10 @@ public class Display {
 	private Label successGenerator;
 	private Paint paintColor;
 	
-	
+	/**
+	 * Konstruktor, erzeugt eine neue Instanz dieser Klasse und initialisiert die Layouts sowie den ColorPicker
+	 * @param stage die Stage, die von der Main-Klasse uebergeben wird
+	 */
 	public Display(Stage stage) {
 		this.stage = stage;
 		this.verwaltung = new Verwaltung(this);
@@ -64,7 +73,11 @@ public class Display {
 		paintColor = Color.AQUA;
 	}
 	
-	
+	/**
+	 * Initialisiert zuerst die Scene und saemtliche Elemente dieser, fuegt diese den jeweiligen Layouts hinzu 
+	 * Kuemmert sich um die Funktionalitaet saemtlicher Buttons, sowie um die Sichtbarkeiten von Labels
+	 * Verhindert sofortige Exit-Anfragen mittles einer NoExitBox ^^
+	 */
 	public void start() {
 		
 		// Scene Initialisieren
@@ -448,6 +461,13 @@ public class Display {
 		System.out.println("DEBUG: \n\n");
 	}
 	
+	
+	/**
+	 * Ermoeglicht die Kommunikation zw. Display und Verwaltung:
+	 * Unterscheidet verschiedene Meldungen aus der Verwaltungs-Instanz und reagiert auf diese. 
+	 * @param message ist der String aus der Verwaltungs-Instanz, anhand dessen verschiedene Aktionen durchgefuehrt werden.
+	 */
+	
 	public void communicate(String message) {
 		// Tu aufgrund von message etwas
 		System.out.println(message);
@@ -471,6 +491,11 @@ public class Display {
 		}
 	}
 	
+	/**
+	 * Loescht zuerst alle Linien, die schon gezeichnet wurden und zeichnet danach saemtliche Linien,
+	 * die im uebergebenen Parameter zu finden sind. Dabei werden diese, per Offsets, etwas umplatziert
+	 * @param linien alle Linien, die gezeichnet werden sollen.
+	 */
 	public void zeichneAlleLinien(List<Linie> linien) { 
 
 		// Momentane Linien clearen

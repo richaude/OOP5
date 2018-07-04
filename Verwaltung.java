@@ -6,6 +6,12 @@ import java.util.List;
 
 import javafx.geometry.Point2D;
 
+
+/**
+ * Ist fuer die Kommunikation zwischen der Logik und dem Display verantwortlich
+ * @author Lukas
+ * @version 1.0
+ */
 public class Verwaltung {
 	
 	private Initiator initiator;
@@ -15,12 +21,22 @@ public class Verwaltung {
 	private boolean activeGenerator;
 	
 
+	/**
+	 * Initialisiert erstmal die Display-Instanz mit ihren Klassenattributen
+	 * @param display zu welcher Display-Instanz die Kommunikation ermoeglicht werden soll
+	 */
 	public Verwaltung(Display display) {
 		this.display = display;
 		this.initiator = new Initiator();
 		activeGenerator = false;
 	}
 	
+	
+	/**
+	 * Initialisiert den Initiator anhand der Punkte innerhalb von 'eingabe' und der Ausrichtung der Linien,
+	 * welche das letzte Element von 'eingabe' darstellt, kommuniziert das Ergebnis zur Display-Instanz
+	 * @param eingabe Sammlung von Punkten und Ausrichtung der Linien
+	 */
 	public void initInitiator(String eingabe) {
 			// Uebergebe Initiator seine Punkte und die Ausrichtung
 			// Text muss noch formattiert werden
@@ -37,6 +53,14 @@ public class Verwaltung {
 			// Initiator-Initiierung abgeschlossen. GJ
 			display.communicate("Initiator erfolgreich berechnet.");
 	}
+	
+	
+	/**
+	 * Initialisiert den Generator fuer die Berechnung des Koch-Kurven-Problems, dabei wird beim GeneratorCustom 'eingabe' an
+	 * eine andere Methode weitergegeben, die dann fuer die weitere Behandlung sorgt 
+	 * @param code interner Code fuer den Generator, der verwendet werden soll
+	 * @param eingabe Sammlung von Punkten und minimaler Laenge der Linien
+	 */
 	public void initGenerator(int code, String eingabe) {
 		if(code == 0) {
 			// 0 fuer Gen 1
@@ -78,7 +102,13 @@ public class Verwaltung {
 		}
 	}
 	
-	//	display.communicate("Works");
+	/**
+	 * Ist fuer die eigentliche Berechnung der Koch-Kurven zustaendig, wobei diese nur aktiviert wird, wenn auch wirklich Initiator
+	 * und Generator vorhanden sind. Auf jede der Linien im Initiator wird der Generator jeweils angewandt, die Ergebnisse einer neuen
+	 * Liste zugewiesen, und auf alle Elemente dieser erneut der Generator angewandt, bis die Laenge der entstandenen Linien die
+	 * mindestLaenge des Generators unterschreitet. Geschieht dies, werden alle gesammelten Linien zum Ausgeben an die Display-Instanz
+	 * gegeben
+	 */
 	public void verwalten() {
 	//Wir haben Initiator und Generator, erzeuge nun alle Linien und lass sie Zeichnen.
 		int zaehler = 0;
@@ -154,6 +184,13 @@ public class Verwaltung {
 			display.zeichneAlleLinien(alleLinien);
 		}
 	}
+	
+	/**
+	 * Checkt zuerst 'eingabe' auf Format-Fehler; Dann werden die Punkte und die Mindestlaenge der Linien extrahiert, und die 
+	 * jeweiligen Attribute der momentanen Generator-Instanz gesetzt.
+	 * @param eingabe die zu bearbeitende Zeichenkette
+	 * @return True bei Fehlern innerhalb des String, False bei Fehlerfreiheit
+	 */
 	private boolean uebergibGenerator(String eingabe) {
 		boolean failed = false;
 		

@@ -8,10 +8,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Kann benutzt werden, um dem User eine aufploppende Meldung anzuzeigen, die er erst abhandeln muss, bevor er weitermachen kann
+ * @author Lukas
+ * @version 1.0
+ */
 public class NoExitBox {
 
 	static boolean answer; // true fuer Bleiben, false fuer Exit
 	
+	/**
+	 * Laesst die NoExitBox aufploppen und erwartet vom Nutzer per Button-Click eine Antwort
+	 * Unterdrueckt alle anderen Fenster dieses Programms
+	 * @param title Fenstertitel der Meldung
+	 * @param message Nachricht, die dem User angezeigt wird
+	 * @param buttonText Text des Buttons
+	 * @return die Entscheidung des Nutzers
+	 */
 	public static boolean display(String title, String message, String buttonText) {
 		Stage window = new Stage();
 		Label label = new Label();
@@ -54,6 +67,11 @@ public class NoExitBox {
 		return answer;
 	}
 	
+	/**
+	 * Laesst ein kleines Fenster erscheinen, das eine Nachricht fuer den User enthaelt, und der nur Schliessen kann
+	 * @param title Titel des Fensters
+	 * @param message Nachricht fuer den User
+	 */
 	public static void display(String title, String message) {
 		Stage window = new Stage();
 		Label label = new Label();
