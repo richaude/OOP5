@@ -106,37 +106,6 @@ public class Display {
 		menuBar.getMenus().add(optionMenu);
 		layoutUpside.setTop(menuBar);
 		
-		// Funktionalitaet
-		m2.setOnAction(e -> {
-			boolean answer = NoExitBox.display("Really=?", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster...");
-			if(!answer) {
-				Platform.exit();
-			}
-		});
-		
-		// Screenshot
-		m1.setOnAction(e -> { 	// Funktioniert noch nicht
-
-			//Stage shotStage = new Stage();
-
-			WritableImage image = scene.snapshot(null);
-			Boolean worked = true;
-			String s = new String("Snapshot");
-			File outputfile = new File(s + new Date().getTime() +".png");
-			
-			try {
-				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputfile);
-			}
-			catch(IOException ioex) {
-				System.out.println("Fail");
-				worked = false;
-			}
-			if(worked) {
-				// Schreibe Erfolgsmeldung!
-				NoExitBox.display("Save-Info", "Datei " + s + " erfolgreich gespeichert!");
-			}
-		});
-		
 		
 		// Divider Setzen und freezen
 		double dividerPos = 0.305;
@@ -426,6 +395,34 @@ public class Display {
 			}
 		});
 		
+		// Funktionalitaet
+		m2.setOnAction(e -> {
+			boolean answer = NoExitBox.display("Really=?", "Willst du das Programm Wirklich beenden?", "Schliesse das Fenster...");
+			if(!answer) {
+				Platform.exit();
+			}
+		});
+		
+		// Screenshot
+		m1.setOnAction(e -> { 	
+			
+			WritableImage image = scene.snapshot(null);
+			Boolean worked = true;
+			String s = new String("Snapshot");
+			File outputfile = new File(s + new Date().getTime() +".png");
+			
+			try {
+				ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", outputfile);
+			}
+			catch(IOException ioex) {
+				System.out.println("Fail");
+				worked = false;
+			}
+			if(worked) {
+				// Schreibe Erfolgsmeldung!
+				NoExitBox.display("Save-Info", "Datei " + s + " erfolgreich gespeichert!");
+			}
+		});
 		
 		//
 		//
