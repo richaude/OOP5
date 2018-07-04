@@ -312,7 +312,7 @@ public class Display {
 			}
 			else if(toggleInitiators.getSelectedToggle().equals(initiator4)) {
 				//	Gleichseitiges Dreieck
-				eingabe = "(0.0,-260);(300,259.6);(600.0,-260.0);(0.0,-260.0);aussen";
+				eingabe = "(0.0,-260);(300,259.6);(600.0,-260.0);(0.0,-260.0);innen";
 			}
 			else {
 				// Initiator Custom, unterscheide noch Kurvenrichtung,
