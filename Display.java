@@ -1,5 +1,9 @@
 package kochkurven;
-// Mehrfaches Zeichnen ermoeglichen
+// Beispiel Gen's
+/*
+	||	(0.4,0.2);(0.3,0.1);(-0.1,-0.2);0.2	||
+	||	(0.2,0.3);(0.6,0.4);0.1	||
+*/
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -138,7 +142,7 @@ public class Display {
 			Label initiatorLabel4 = new Label("Am Schluss Ausrichtung der Linien! (Innen/Aussen)");
 			Label generatorLabel1 = new Label("Generators:");
 			Label generatorLabel2 = new Label("Zu verwendende Werte (Custom):");
-			Label generatorLabel3 = new Label("Eingabe-Maske:    '(0.0,a.b);(c.d,e.f);...;(x.y,1.0);minLaenge'");
+			Label generatorLabel3 = new Label("Eingabe-Maske:    '(a.b,c.d);...;(v.x,y.z);minLaenge'");
 			Label linienFarbe = new Label("Linienfarbe:");
 			successInitiator = new Label("Initiator erfolgreich aufgenommen!");
 			successGenerator = new Label("Generator erfolgreich aufgenommen!");
@@ -171,7 +175,7 @@ public class Display {
 			// ColorPicker
 			
 			ColorPicker colorPicker = new ColorPicker();
-			colorPicker.setValue(Color.RED);
+			colorPicker.setValue(Color.AQUA);
 			colorPicker.setDisable(true);
 			
 			// TextBoxes
@@ -458,6 +462,7 @@ public class Display {
 	}
 	
 	public void zeichneAlleLinien(List<Linie> linien) { 
+
 		// Momentane Linien clearen
 		List<Node> temp = new ArrayList<Node>(this.layoutRight.getChildren());
 		for(Node n : temp) {

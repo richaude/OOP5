@@ -1,6 +1,5 @@
 package kochkurven;
 
-// Die Hauptschleife fehlt noch!
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +30,9 @@ public class Verwaltung {
 			}
 			else {
 				// System.out.println("Erfolgreiche Uebergabe, eingabe :=" + eingabe + ";;;;; ");
-				for(Linie l : this.initiator.getLinien()) {
-					System.out.println(l);
-				}
+				//for(Linie l : this.initiator.getLinien()) {
+				//	System.out.println(l);
+				//}
 			}
 			// Initiator-Initiierung abgeschlossen. GJ
 			display.communicate("Initiator erfolgreich berechnet.");
@@ -69,6 +68,7 @@ public class Verwaltung {
 			
 			if(failed) {
 				display.communicate("Generator konnte nicht berechnet werden.");
+				activeGenerator = false;
 				return;
 			}
 			else {
@@ -95,7 +95,7 @@ public class Verwaltung {
 		else {
 				
 			// Fuehre superSchleife aus
-			System.out.println("Berechnung erfolgt!");			//Debug
+			//System.out.println("Berechnung erfolgt!");			//Debug
 			
 			List<Linie> currentLines = this.initiator.getLinien();
 			List<Linie> finalLines = new ArrayList<Linie>();
@@ -104,14 +104,14 @@ public class Verwaltung {
 			
 			Double linienlaenge = currentLines.get(0).getLaenge();
 			
-			System.out.println("Minimale Generator-Laenge = "+this.generator.getMinL());
+			//System.out.println("Minimale Generator-Laenge = "+this.generator.getMinL());
 			if(linienlaenge >= this.generator.getMinL()) {
 				longerAsMinL = true;
 			}
 			else {
 				longerAsMinL = false;
 			}
-
+			//(0,0);(0.3333333,0);(0.5, 0.288675);(0.666666,0);(1,0);1
 			
 			while(longerAsMinL) {
 				for(Linie l: currentLines) {
@@ -125,6 +125,7 @@ public class Verwaltung {
 						finalLines.add(m);
 					//	System.out.println(m); // Debug
 					}
+					//System.out.println("\n\n");
 					
 				}
 								
@@ -155,7 +156,6 @@ public class Verwaltung {
 	}
 	private boolean uebergibGenerator(String eingabe) {
 		boolean failed = false;
-		
 		
 		// Untersuche hier den String auf Fehler, und erschaffe den Initiator bzw. dessen Punkte
 					// FehlerSuche, fange noch Laenge 1 und 0 ab; Bitte noch die Ausgangslinien wieder rausnehmen
@@ -198,7 +198,7 @@ public class Verwaltung {
 							// System.out.println("X1:= "+xCoord1+" Y1:= "+yCoord1+" X2:= "+xCoord2+" Y2:= " +yCoord2);
 							Point2D point = new Point2D(xCoord,yCoord);
 							allePunkte.add(point);
-							
+				//			System.out.println(point);
 						}
 						this.generator = new GeneratorCustom(allePunkte);
 						this.generator.setMinL(lastItem);
