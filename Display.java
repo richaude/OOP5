@@ -21,6 +21,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.SplitPane.Divider;
@@ -40,9 +42,10 @@ public class Display {
 	private Verwaltung verwaltung;
 	private Stage stage;
 	private VBox layoutLeft;
-	private Pane layoutRight;
+	private Pane paneForDrawedLines;
 	private SplitPane layoutControl;
 	private BorderPane layoutUpside;
+	private ScrollPane layoutRightSide;
 	private Label successInitiator;
 	private Label successGenerator;
 	private Paint paintColor;
@@ -55,18 +58,24 @@ public class Display {
 		// Layouts einrichten
 		layoutUpside = new BorderPane();
 		layoutLeft = new VBox();
-		layoutRight = new Pane();
-		layoutControl = new SplitPane(layoutLeft, layoutRight);
+		paneForDrawedLines = new Pane();
+		layoutRightSide = new ScrollPane();
+		layoutControl = new SplitPane(layoutLeft, layoutRightSide);
 		paintColor = Color.AQUA;
 	}
 	
 	
 	public void start() {
 		
-		//Scene Initialisieren
+		// Scene Initialisieren
 		
 		Scene scene = new Scene(layoutUpside, 1000, 710);
 		layoutUpside.setCenter(layoutControl);
+		
+		// ScrollPane
+		layoutRightSide.setContent(paneForDrawedLines);
+		layoutRightSide.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		layoutRightSide.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		
 		// MenuBar
 		MenuBar menuBar = new MenuBar();	
@@ -436,6 +445,7 @@ public class Display {
 		//List<Linie> lul = new ArrayList<Linie>();
 		//	lul.add(new Linie(10, 0, 100, 0));
 		//zeichneAlleLinien(lul);
+		System.out.println("DEBUG: \n\n");
 	}
 	
 	public void communicate(String message) {
@@ -464,10 +474,10 @@ public class Display {
 	public void zeichneAlleLinien(List<Linie> linien) { 
 
 		// Momentane Linien clearen
-		List<Node> temp = new ArrayList<Node>(this.layoutRight.getChildren());
+		List<Node> temp = new ArrayList<Node>(this.paneForDrawedLines.getChildren());
 		for(Node n : temp) {
 			//n.setVisible(false);
-			this.layoutRight.getChildren().remove(n);
+			this.paneForDrawedLines.getChildren().remove(n);
 		}
 		
 		// Neue Linien Zeichnen
@@ -480,7 +490,7 @@ public class Display {
 			Line line = new Line(l.getStart().getX()+ xOffset,l.getStart().getY() + yOffset,l.getEnd().getX() + xOffset,l.getEnd().getY() + yOffset);
 			
 			line.setStroke(this.paintColor);
-			this.layoutRight.getChildren().add(line);
+			this.paneForDrawedLines.getChildren().add(line);
 		}
 		System.out.println("Erfolgreich gezeichnet");
 	}
