@@ -70,7 +70,7 @@ public class Display {
 		paneForDrawedLines = new Pane();
 		layoutRightSide = new ScrollPane();
 		layoutControl = new SplitPane(layoutLeft, layoutRightSide);
-		paintColor = Color.AQUA;
+		paintColor = Color.SLATEBLUE;
 	}
 	
 	/**
@@ -166,7 +166,7 @@ public class Display {
 			// ColorPicker
 			
 			ColorPicker colorPicker = new ColorPicker();
-			colorPicker.setValue(Color.AQUA);
+			colorPicker.setValue(Color.SLATEBLUE);
 			colorPicker.setDisable(true);
 			
 			// TextBoxes
