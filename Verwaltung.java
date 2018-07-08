@@ -144,8 +144,12 @@ public class Verwaltung {
 			//(0,0);(0.3333333,0);(0.5, 0.288675);(0.666666,0);(1,0);1
 			
 			while(longerAsMinL) {
+				// Clear finalLines
+				finalLines.clear();
 				for(Linie l: currentLines) {
 				//	System.out.println(l);
+					
+			
 					// Wende Generator auf Linie an und speicher die Ergebnisse
 					this.generator.setLinie(l.getStart().getX(), l.getStart().getY(), l.getEnd().getX(), l.getEnd().getY());
 					this.generator.produziereLinien(this.initiator.getInnen());

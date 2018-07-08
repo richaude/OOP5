@@ -2,6 +2,8 @@ package kochkurven;
 
 import java.util.ArrayList;
 import java.util.List;
+// Anmerkung: Bei der Implementation lief etwas schief, verwende also besser den GeneratorCustom und gib die Punkte von Generator2 ein!
+
 
 /**
  * Implementiert die Methode zur Manipulation einer Ausgangslinie nach Generator 2. Manipuliert die Ausgangslinie in Relation zu der Manipulation der Linie von (0/0) bis (1/0) auf dem Aufgabenblatt.
